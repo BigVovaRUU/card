@@ -1,7 +1,9 @@
 .bloke {
     width: 500px;
-    height: 200px;
     display: block;
     background-color: aliceblue;
-    justify-content:center;
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    height: 100vh; /* Высота контейнера */
 }
