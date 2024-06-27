@@ -2,8 +2,4 @@
     width: 500px;
     display: block;
     background-color: aliceblue;
-    display: flex;
-    justify-content: center; /* Центрирование по горизонтали */
-    align-items: center; /* Центрирование по вертикали */
-    height: 100vh; /* Высота контейнера */
 }
