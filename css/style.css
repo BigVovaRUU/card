@@ -1,4 +1,6 @@
 .bloke {
+    margin: auto;
+    padding: auto;
     width: 500px;
     display: block;
     background-color: aliceblue;
