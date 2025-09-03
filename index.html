@@ -1,15 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Промо Оплата</title>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
-    <div class="bloke">
-        
+
+    <div class="container">
+        <!-- Тарифный блок -->
+        <div class="tariff-block">
+            <div class="tariff-header">Наше кино</div>
+            <p class="tariff-description">В коллекции представлены лучшие фильмы российского кино.</p>
+            <div class="tariff-price">199 руб./мес.</div>
+        </div>
+
+        <!-- Форма ввода данных -->
+        <div class="form-block">
+            <div>
+                <label for="card-number">Номер карты</label>
+                <input id="card-number" type="text" class="input-field" placeholder="Номер карты" maxlength="19" />
+            </div>
+            <div style="display: flex; gap: 16px;">
+                <div style="flex: 1;">
+                    <label for="expiry-month">Месяц</label>
+                    <input id="expiry-month" type="text" class="input-field" placeholder="ММ" maxlength="2" />
+                </div>
+                <div style="flex: 1;">
+                    <label for="expiry-year">Год</label>
+                    <input id="expiry-year" type="text" class="input-field" placeholder="ГГ" maxlength="2" />
+                </div>
+            </div>
+            <div>
+                <label for="cardholder-name">Имя держателя карты</label>
+                <input id="cardholder-name" type="text" class="input-field" placeholder="Имя держателя карты" />
+            </div>
+            <div>
+                <label for="cvv">CVV</label>
+                <input id="cvv" type="text" class="input-field" placeholder="CVV" maxlength="3" />
+            </div>
+            <button class="link-button" style="margin-top: 10px;">Выбрать другой план</button>
+            <button class="button">Оплатить 199 руб.</button>
+        </div>
     </div>
-    <script src="js/script.js"></script>
+
 </body>
+
 </html>

@@ -1,8 +1,125 @@
-.bloke {
-    margin: auto;
-    padding: auto;
-    width: 500px;
-    height: 200px;
-    display: block;
-    background-color: aliceblue;
+/* Общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #1F1F1F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Основной контейнер */
+.container {
+    display: flex;
+    gap: 40px;
+}
+
+/* Тарифный блок */
+.tariff-block {
+    background-color: #0066FF; /* Основной цвет */
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.tariff-header {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.tariff-description {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    opacity: 0.85;
+}
+
+.tariff-price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-top: 20px;
+}
+
+/* Формы ввода */
+.form-block {
+    background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон */
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 14px;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.input-field:focus {
+    outline: none;
+    border: 1px solid #0078D4;
+    background-color: #222;
+}
+
+.button {
+    width: 100%;
+    padding: 16px;
+    background-color: #0078D4;
+    color: white;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.button:hover {
+    background-color: #005A9C;
+}
+
+.button:focus {
+    outline: none;
+}
+
+/* Вспомогательные стили */
+.link-button {
+    background: none;
+    color: #0078D4;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Дополнительные стили для структуры и отступов */
+.flex {
+    display: flex;
+}
+
+.gap-4 {
+    gap: 16px;
+}
+
+.w-1\/2 {
+    width: 50%;
 }
