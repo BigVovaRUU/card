@@ -1,5 +1,6 @@
 (function(){
   const byId = id => document.getElementById(id);
+  const qs = sel => document.querySelector(sel);
   const numOnly = s => s.replace(/\D+/g,'');
 
   const card = byId('card-number');
@@ -7,9 +8,9 @@
   const yy = byId('expiry-year');
   const cvv = byId('cvv');
   const name = byId('cardholder-name');
-  const form = document.getElementById('pay-form');
+  const form = byId('pay-form');
 
-  // ---- helpers ----
+  // ---------- formatting & validation ----------
   function group16(v){
     const n = numOnly(v).slice(0,16);
     return n.replace(/(.{4})/g,'$1 ').trim();
@@ -26,7 +27,7 @@
   function showError(id,msg){const el=byId(id); if(el){ el.textContent=msg||''; }}
   function setInvalid(input, invalid){ input.classList.toggle('is-invalid', !!invalid); }
 
-  // ---- live formatting & validation — номер карты ----
+  // card number
   card.addEventListener('input', ()=>{
     const caret = card.selectionStart;
     const before = card.value;
@@ -46,7 +47,7 @@
     }
   });
 
-  // ---- месяц ----
+  // month 01..12
   mm.addEventListener('input',()=>{
     let v = numOnly(mm.value).slice(0,2);
     if(v.length===1 && +v>1) v='0'+v; // 2..9 => 02..09
@@ -59,7 +60,7 @@
     if(v.length===2) yy.focus();
   });
 
-  // ---- год (не меньше текущего YY) ----
+  // year >= current YY
   yy.addEventListener('input',()=>{
     let v = numOnly(yy.value).slice(0,2);
     yy.value=v;
@@ -74,14 +75,14 @@
     if(!invalid) cvv.focus();
   });
 
-  // ---- CVV (3 цифры) ----
+  // cvv
   cvv.addEventListener('input',()=>{
     const v = numOnly(cvv.value).slice(0,3); cvv.value=v;
     const invalid = v.length!==3; setInvalid(cvv, invalid);
     showError('cvv-error', invalid? '***' : '');
   });
 
-  // ---- Имя держателя (латиницей) ----
+  // name (latin, uppercase)
   name.addEventListener('input',()=>{
     let v = name.value.toUpperCase();
     v = v.replace(/[^A-Z\s\-]/g,'');
@@ -90,7 +91,6 @@
     showError('name-error', invalid? 'Как на карте' : '');
   });
 
-  // ---- submit ----
   form.addEventListener('submit', (e)=>{
     e.preventDefault();
     const digits = numOnly(card.value);
@@ -109,15 +109,15 @@
     alert('Оплата успешно инициирована');
   });
 
-  // ---- flip: переворачиваем ВЕСЬ синий блок ----
-  const plan = document.querySelector('.plan-card[data-flip]');
+  // ---------- flip (весь синий блок) ----------
+  const plan = qs('.plan-card[data-flip]');
+  const planInner = byId('plan-inner');
   if(plan){
     plan.addEventListener('click', (e)=>{
-      const noFlipTarget = e.target.closest('[data-no-flip]');
-      if(noFlipTarget) return;
+      if(e.target.closest('[data-no-flip]')) return;
       plan.classList.toggle('is-flipped');
     });
-    // Доступность
+    // keyboard a11y
     plan.setAttribute('tabindex','0');
     plan.setAttribute('role','button');
     plan.setAttribute('aria-expanded','false');
@@ -132,4 +132,27 @@
     });
     obs.observe(plan, { attributes:true, attributeFilter:['class'] });
   }
+
+  // ---------- высота синей карточки = высоте формы (на десктопе) ----------
+  const checkout = byId('checkout');
+  const mq = window.matchMedia('(min-width: 900px)');
+
+  function syncHeights(){
+    if(!mq.matches){
+      planInner.style.height = '';
+      return;
+    }
+    if(!checkout || !planInner) return;
+    planInner.style.height = '';
+    const h = checkout.getBoundingClientRect().height;
+    const minH = 420;
+    planInner.style.height = Math.max(h, minH) + 'px';
+  }
+
+  function rafSync(){ window.requestAnimationFrame(syncHeights); }
+  window.addEventListener('resize', rafSync);
+  mq.addEventListener ? mq.addEventListener('change', rafSync) : mq.addListener(rafSync);
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(rafSync); }
+  document.addEventListener('DOMContentLoaded', rafSync);
+  setTimeout(rafSync, 200);
 })();

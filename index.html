@@ -10,9 +10,9 @@
 </head>
 <body>
   <main class="wrap">
-    <!-- Переворачиваемая карточка тарифа -->
+    <!-- Переворачиваемая карточка тарифа (переворачивается ВЕСЬ синий блок) -->
     <section class="plan-card" aria-labelledby="plan-title" data-flip>
-      <div class="plan-card__inner">
+      <div class="plan-card__inner" id="plan-inner">
         <!-- FRONT -->
         <div class="face face--front">
           <header>
@@ -33,27 +33,36 @@
             <li>Отмена в любой момент</li>
           </ul>
 
-          <button class="btn btn--ghost" type="button" id="change-plan" data-no-flip>
-            Выбрать другой план
-          </button>
+          <div class="cta-group">
+            <button class="btn btn--primary" type="button" data-no-flip id="subscribe-now">Оформить подписку</button>
+            <button class="btn btn--ghost" type="button" data-no-flip id="learn-more">Узнать подробнее тариф</button>
+          </div>
         </div>
 
-        <!-- BACK -->
+        <!-- BACK (новая информация о выгодах, не зеркалится) -->
         <div class="face face--back" aria-hidden="true">
-          <h2 class="back-title">Почему «Наше кино»</h2>
+          <h2 class="back-title">Преимущества тарифа</h2>
           <ul class="back-list">
-            <li>Подборка культовых отечественных фильмов</li>
-            <li>Премьеры и редкие классические ленты</li>
-            <li>Без рекламы, в Full HD и 4K (где доступно)</li>
-            <li>Скачивание на устройства (офлайн)</li>
+            <li>Культовая классика и премьеры в одной подписке</li>
+            <li>Без рекламы, Full HD/4K (где доступно)</li>
+            <li>Скачивание фильмов для офлайна</li>
+            <li>До 2 устройств одновременно</li>
+            <li>Поддержка на любом экране</li>
           </ul>
+
+          <div class="cta-group">
+            <button class="btn btn--primary" type="button" data-no-flip id="subscribe-now-back">Оформить подписку</button>
+            <button class="btn btn--ghost" type="button" data-no-flip id="compare">Сравнить планы</button>
+            <button class="btn btn--ghost" type="button" data-no-flip id="terms">Условия</button>
+          </div>
+
           <p class="back-hint">Нажмите на карточку, чтобы вернуться</p>
         </div>
       </div>
     </section>
 
     <!-- Блок оплаты -->
-    <section class="checkout-card" aria-labelledby="checkout-title">
+    <section class="checkout-card" aria-labelledby="checkout-title" id="checkout">
       <h2 id="checkout-title">Оплата банковской картой</h2>
 
       <form id="pay-form" novalidate>
