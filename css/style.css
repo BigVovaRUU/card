@@ -1,125 +1,148 @@
-/* Общие стили */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root{
+  --bg-1:#0f1221;
+  --bg-2:#0b0e1a;
+  --glass:rgba(255,255,255,.06);
+  --stroke:rgba(255,255,255,.12);
+  --text:#e9edf5;
+  --muted:#a9b0c2;
+  --accent:#6a7cff;
+  --accent-2:#00d4ff;
+  --ok:#21c18b;
+  --danger:#ff5a7a;
+  --shadow:0 20px 50px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 800px at 10% -10%, #1a1f3a 0%, transparent 60%),
+    radial-gradient(1200px 800px at 110% 110%, #0e1229 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  display:grid;place-items:center;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #1F1F1F;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+/* layout */
+.wrap{display:grid;grid-template-columns:1fr;gap:24px;max-width:980px;width:100%;padding:24px}
+@media(min-width:900px){
+  .wrap{grid-template-columns:1fr 1.2fr;gap:28px;padding:40px}
 }
 
-/* Основной контейнер */
-.container {
-    display: flex;
-    gap: 40px;
+/* план-карта: контейнер с перспективой (визуал на внутренних лицах) */
+.plan-card{
+  perspective:1200px;
+  cursor:pointer;
+}
+.plan-card, .checkout-card{position:relative;overflow:hidden}
+
+/* flip frame — именно он и весь синий блок переворачиваются */
+.plan-card__inner{
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.2,.65,.2,1);
+  min-height:380px;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+/* декоративное свечение внутри, переворачивается вместе с карточкой */
+.plan-card__inner::after{
+  content:"";
+  position:absolute;inset:auto -40% -60% -40%;
+  height:180px;
+  background:radial-gradient(closest-side,rgba(255,255,255,.12),transparent 70%);
+  filter:blur(30px);
+  animation:f 8s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes f{from{transform:translateY(0)}to{transform:translateY(-16px)}}
+
+/* две стороны */
+.plan-card .face{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;
+}
+.plan-card .face--front{
+  background:
+    linear-gradient(135deg, rgba(106,124,255,.18), rgba(0,212,255,.12)) border-box,
+    linear-gradient(135deg, rgba(106,124,255,.65), rgba(0,212,255,.65)) padding-box;
+  border:1px solid transparent;
+  padding:28px;
+}
+.plan-card .face--back{
+  background:linear-gradient(135deg, rgba(0,212,255,.16), rgba(106,124,255,.14));
+  border:1px solid var(--stroke);
+  padding:28px;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  transform:rotateY(180deg);
+}
+.plan-card.is-flipped .plan-card__inner{transform:rotateY(180deg)}
+
+/* контент фронт-стороны */
+.plan-card .badge{
+  display:inline-block;padding:6px 10px;border-radius:999px;
+  background:rgba(255,255,255,.08);border:1px solid var(--stroke);
+  font-weight:600;font-size:12px;color:var(--muted);letter-spacing:.04em
+}
+.plan-card h1{margin:.6rem 0 0;font-size:clamp(28px,3vw,36px);line-height:1.15}
+.plan-card .subtitle{margin:.6rem 0 1.2rem;color:var(--muted)}
+.price{display:flex;align-items:flex-end;gap:6px;margin:12px 0 18px}
+.price__value{font-size:clamp(42px,6vw,56px);font-weight:800;line-height:1}
+.price__currency{font-weight:700;opacity:.85}
+.price__period{color:var(--muted)}
+.features{list-style:none;margin:8px 0 22px;padding:0;display:grid;gap:8px}
+.features li{position:relative;padding-left:22px;color:var(--text)}
+.features li::before{
+  content:"";position:absolute;left:0;top:.45em;width:12px;height:12px;border-radius:3px;
+  background:linear-gradient(135deg,var(--ok),#6df3c2)
 }
 
-/* Тарифный блок */
-.tariff-block {
-    background-color: #0066FF; /* Основной цвет */
-    color: white;
-    padding: 30px;
-    border-radius: 12px;
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
+/* кнопки */
+.btn{appearance:none;border:none;border-radius:12px;padding:14px 16px;font-weight:700;cursor:pointer;transition:transform .08s ease,box-shadow .2s ease,background .2s ease}
+.btn:active{transform:translateY(1px)}
+.btn--ghost{background:transparent;border:1px solid var(--stroke);color:var(--text)}
+.btn--ghost:hover{background:rgba(255,255,255,.04)}
+.btn--primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#061018;box-shadow:0 10px 30px rgba(0,212,255,.22)
 }
+.btn--primary:hover{filter:brightness(1.05)}
+/* курсор-указатель не нужен на кнопке, чтобы не переворачивать при клике на неё */
+.plan-card [data-no-flip]{cursor:default}
 
-.tariff-header {
-    font-size: 1.8rem;
-    font-weight: 700;
+/* блок оплаты (стекло) */
+.checkout-card{
+  backdrop-filter:saturate(160%) blur(12px);
+  -webkit-backdrop-filter:saturate(160%) blur(12px);
+  background:var(--glass);
+  border:1px solid var(--stroke);
+  border-radius:20px;box-shadow:var(--shadow);
+  padding:28px;
 }
+.checkout-card h2{margin:0 0 14px;font-size:clamp(18px,2.4vw,22px)}
 
-.tariff-description {
-    margin-top: 10px;
-    font-size: 1.1rem;
-    opacity: 0.85;
+/* форма */
+form{display:grid;gap:16px}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{display:grid;gap:8px}
+label{font-weight:600;color:var(--muted)}
+input{
+  width:100%;
+  height:46px;
+  border-radius:12px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--stroke);
+  color:var(--text);
+  padding:0 14px;
+  font:600 15px/1 'Inter',system-ui;
+  outline:none;
+  transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
 }
+input::placeholder{color:#7f879c}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(106,124,255,.18);background:rgba(255,255,255,.08)}
+.hint{color:#92a0bd}
+.error{color:var(--danger);min-height:1em}
+input.is-invalid{border-color:var(--danger);box-shadow:0 0 0 4px rgba(255,90,122,.15)}
 
-.tariff-price {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-top: 20px;
-}
-
-/* Формы ввода */
-.form-block {
-    background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон */
-    padding: 30px;
-    border-radius: 12px;
-    width: 350px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.input-field {
-    width: 100%;
-    padding: 14px;
-    background-color: #333;
-    border: 1px solid #444;
-    border-radius: 8px;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.input-field:focus {
-    outline: none;
-    border: 1px solid #0078D4;
-    background-color: #222;
-}
-
-.button {
-    width: 100%;
-    padding: 16px;
-    background-color: #0078D4;
-    color: white;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.button:hover {
-    background-color: #005A9C;
-}
-
-.button:focus {
-    outline: none;
-}
-
-/* Вспомогательные стили */
-.link-button {
-    background: none;
-    color: #0078D4;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-}
-
-/* Дополнительные стили для структуры и отступов */
-.flex {
-    display: flex;
-}
-
-.gap-4 {
-    gap: 16px;
-}
-
-.w-1\/2 {
-    width: 50%;
-}
+.actions{margin-top:4px}

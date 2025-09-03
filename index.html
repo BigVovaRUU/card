@@ -1,52 +1,104 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Промо Оплата</title>
-    <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Промо-оплата — Наше кино</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-
 <body>
+  <main class="wrap">
+    <!-- Переворачиваемая карточка тарифа -->
+    <section class="plan-card" aria-labelledby="plan-title" data-flip>
+      <div class="plan-card__inner">
+        <!-- FRONT -->
+        <div class="face face--front">
+          <header>
+            <p class="badge">Тариф</p>
+            <h1 id="plan-title">Наше кино</h1>
+            <p class="subtitle">Лучшие фильмы российского кино. Новинки каждую неделю, без рекламы, в Full HD.</p>
+          </header>
 
-    <div class="container">
-        <!-- Тарифный блок -->
-        <div class="tariff-block">
-            <div class="tariff-header">Наше кино</div>
-            <p class="tariff-description">В коллекции представлены лучшие фильмы российского кино.</p>
-            <div class="tariff-price">199 руб./мес.</div>
+          <div class="price">
+            <span class="price__value">199</span>
+            <span class="price__currency">₽</span>
+            <span class="price__period">/ мес.</span>
+          </div>
+
+          <ul class="features" aria-label="Что входит">
+            <li>Доступ на 30 дней</li>
+            <li>2 устройства одновременно</li>
+            <li>Отмена в любой момент</li>
+          </ul>
+
+          <button class="btn btn--ghost" type="button" id="change-plan" data-no-flip>
+            Выбрать другой план
+          </button>
         </div>
 
-        <!-- Форма ввода данных -->
-        <div class="form-block">
-            <div>
-                <label for="card-number">Номер карты</label>
-                <input id="card-number" type="text" class="input-field" placeholder="Номер карты" maxlength="19" />
-            </div>
-            <div style="display: flex; gap: 16px;">
-                <div style="flex: 1;">
-                    <label for="expiry-month">Месяц</label>
-                    <input id="expiry-month" type="text" class="input-field" placeholder="ММ" maxlength="2" />
-                </div>
-                <div style="flex: 1;">
-                    <label for="expiry-year">Год</label>
-                    <input id="expiry-year" type="text" class="input-field" placeholder="ГГ" maxlength="2" />
-                </div>
-            </div>
-            <div>
-                <label for="cardholder-name">Имя держателя карты</label>
-                <input id="cardholder-name" type="text" class="input-field" placeholder="Имя держателя карты" />
-            </div>
-            <div>
-                <label for="cvv">CVV</label>
-                <input id="cvv" type="text" class="input-field" placeholder="CVV" maxlength="3" />
-            </div>
-            <button class="link-button" style="margin-top: 10px;">Выбрать другой план</button>
-            <button class="button">Оплатить 199 руб.</button>
+        <!-- BACK -->
+        <div class="face face--back" aria-hidden="true">
+          <h2 class="back-title">Почему «Наше кино»</h2>
+          <ul class="back-list">
+            <li>Подборка культовых отечественных фильмов</li>
+            <li>Премьеры и редкие классические ленты</li>
+            <li>Без рекламы, в Full HD и 4K (где доступно)</li>
+            <li>Скачивание на устройства (офлайн)</li>
+          </ul>
+          <p class="back-hint">Нажмите на карточку, чтобы вернуться</p>
         </div>
-    </div>
+      </div>
+    </section>
 
+    <!-- Блок оплаты -->
+    <section class="checkout-card" aria-labelledby="checkout-title">
+      <h2 id="checkout-title">Оплата банковской картой</h2>
+
+      <form id="pay-form" novalidate>
+        <div class="field">
+          <label for="card-number">Номер карты</label>
+          <input id="card-number" name="cardNumber" inputmode="numeric" autocomplete="cc-number"
+                 placeholder="0000 0000 0000 0000" maxlength="19" required />
+          <small class="hint">16 цифр, как на карте</small>
+          <small class="error" id="card-number-error" aria-live="polite"></small>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="expiry-month">Месяц</label>
+            <input id="expiry-month" name="expiryMonth" inputmode="numeric" placeholder="MM" maxlength="2" required />
+            <small class="error" id="expiry-month-error" aria-live="polite"></small>
+          </div>
+
+          <div class="field">
+            <label for="expiry-year">Год</label>
+            <input id="expiry-year" name="expiryYear" inputmode="numeric" placeholder="YY" maxlength="2" required />
+            <small class="error" id="expiry-year-error" aria-live="polite"></small>
+          </div>
+
+          <div class="field">
+            <label for="cvv">CVV</label>
+            <input id="cvv" name="cvv" inputmode="numeric" autocomplete="cc-csc" placeholder="***" maxlength="3" required />
+            <small class="error" id="cvv-error" aria-live="polite"></small>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="cardholder-name">Имя держателя карты</label>
+          <input id="cardholder-name" name="cardholder" autocomplete="cc-name" placeholder="IVAN IVANOV" required />
+          <small class="hint">Латиницей, как на карте</small>
+          <small class="error" id="name-error" aria-live="polite"></small>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--primary" id="pay-btn" type="submit">Оплатить 199 ₽</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
 </body>
-
 </html>
